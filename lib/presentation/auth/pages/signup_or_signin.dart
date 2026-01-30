@@ -5,6 +5,7 @@ import 'package:flutter_two/common/widgets/appbar/app_bar.dart';
 import 'package:flutter_two/common/widgets/button/basic_app_button.dart';
 import 'package:flutter_two/core/configs/assets/app_vectors.dart';
 import 'package:flutter_two/core/configs/theme/app_colors.dart';
+import 'package:flutter_two/presentation/auth/pages/signup.dart';
 
 import '../../../core/configs/assets/app_images.dart';
 
@@ -60,7 +61,7 @@ class SignupOrSigninPage extends StatelessWidget {
                         flex: 1,
                         child: BasicAppButton(
                           onPressed: () {
-
+                            Navigator.push(context,MaterialPageRoute(builder:(_) => SignupPage()));
                           },
                           title: "Register",
                         ),
