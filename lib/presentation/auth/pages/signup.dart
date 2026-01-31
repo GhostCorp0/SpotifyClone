@@ -6,7 +6,7 @@ import 'package:flutter_two/core/configs/assets/app_vectors.dart';
 import 'package:flutter_two/data/models/auth/create_user_req.dart';
 import 'package:flutter_two/domain/usecases/auth/sign_up.dart';
 import 'package:flutter_two/presentation/auth/pages/sign_in.dart';
-import 'package:flutter_two/presentation/root/pages/root.dart';
+import 'package:flutter_two/presentation/home/pages/home.dart';
 
 import '../../../service_locator.dart';
 
@@ -56,7 +56,7 @@ class SignupPage extends StatelessWidget {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => RootPage(),
+                        builder: (BuildContext context) => HomePage(),
                       ),
                       (route) => false,
                     );
