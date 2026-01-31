@@ -3,17 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_two/common/widgets/appbar/app_bar.dart';
 import 'package:flutter_two/common/widgets/button/basic_app_button.dart';
 import 'package:flutter_two/core/configs/assets/app_vectors.dart';
-import 'package:flutter_two/data/models/auth/create_user_req.dart';
-import 'package:flutter_two/domain/usecases/auth/sign_up.dart';
-import 'package:flutter_two/presentation/auth/pages/sign_in.dart';
+import 'package:flutter_two/data/models/auth/signin_user_req.dart';
+import 'package:flutter_two/domain/usecases/auth/sign_in.dart';
+import 'package:flutter_two/presentation/auth/pages/signup.dart';
 import 'package:flutter_two/presentation/root/pages/root.dart';
 
 import '../../../service_locator.dart';
 
-class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+class SigninPage extends StatelessWidget {
+  SigninPage({super.key});
 
-  final TextEditingController _fullName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
@@ -24,14 +23,12 @@ class SignupPage extends StatelessWidget {
       appBar: BasicAppBar(
         title: SvgPicture.asset(AppVectors.logo, height: 40, width: 40),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _registerText(),
-            SizedBox(height: 50),
-            _fullNameField(context),
             SizedBox(height: 20),
             _emailField(context),
             SizedBox(height: 20),
@@ -39,17 +36,18 @@ class SignupPage extends StatelessWidget {
             SizedBox(height: 20),
             BasicAppButton(
               onPressed: () async {
-                var result = await sl<SignupUseCase>().call(
-                  CreateUserReq(
-                    fullName: _fullName.text.toString(),
+                var result = await sl<SignInUseCase>().call(
+                  SigninUserReq(
                     email: _email.text.toString(),
                     password: _password.text.toString(),
                   ),
                 );
-
                 result.fold(
                   (l) {
-                    var snackBar = SnackBar(content: Text(l));
+                    var snackBar = SnackBar(
+                      content: Text(l),
+                      behavior: SnackBarBehavior.floating,
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   (r) {
@@ -63,7 +61,7 @@ class SignupPage extends StatelessWidget {
                   },
                 );
               },
-              title: "Create Account",
+              title: "Sign In",
             ),
           ],
         ),
@@ -76,15 +74,6 @@ class SignupPage extends StatelessWidget {
       "Register",
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
       textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _fullNameField(BuildContext context) {
-    return TextField(
-      controller: _fullName,
-      decoration: InputDecoration(
-        hintText: "Full Name",
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
     );
   }
 
@@ -113,17 +102,17 @@ class SignupPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Do you have an account?",
+            "Not A Member?",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
           TextButton(
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => SigninPage()),
+                MaterialPageRoute(builder: (_) => SignupPage()),
               );
             },
-            child: Text("Sign In"),
+            child: Text("Register Now"),
           ),
         ],
       ),

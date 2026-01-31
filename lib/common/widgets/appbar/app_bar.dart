@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_two/common/helpers/is_dark_mode.dart';
 
-class BasicAppBar extends StatelessWidget implements PreferredSize{
+class BasicAppBar extends StatelessWidget implements PreferredSize {
   final Widget? title;   
   const BasicAppBar({super.key, this.title});
 
@@ -9,7 +9,8 @@ class BasicAppBar extends StatelessWidget implements PreferredSize{
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
-      title: title?? Text(" "),
+      title: title?? Text(""),
+      centerTitle: true,
       elevation: 0,
       leading: IconButton(
         onPressed: () {
