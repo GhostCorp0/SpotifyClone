@@ -45,7 +45,7 @@ class NewsSongs extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => SongPlayerPage(),
+                builder: (BuildContext context) => SongPlayerPage(songEntity: songs[index],),
               ),
             );
           },
@@ -59,7 +59,7 @@ class NewsSongs extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        image: NetworkImage(AppUrls.fireStorage),
+                        image: NetworkImage(AppUrls.coverFireStorage),
                         fit: BoxFit.cover,
                       ),
                     ),
