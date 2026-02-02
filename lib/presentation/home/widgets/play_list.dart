@@ -48,7 +48,8 @@ class PlayList extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _songs(state.songs)
+                  SizedBox(height: 20),
+                  _songs(state.songs),
                 ],
               ),
             );
@@ -78,33 +79,38 @@ class PlayList extends StatelessWidget {
                     ? AppColors.darkGrey
                     : const Color(0xffE6E6E6),
               ),
+              child: Icon(
+                Icons.play_arrow_rounded,
+                color: context.isDarkMode
+                    ? Color(0xff959595)
+                    : Color(0xff555555),
+              ),
             ),
             const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    song.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    song.artist,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  song.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  song.artist,
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 11),
+                ),
+              ],
+            ),
+            Spacer(),
+            Row(
+              children: [
+                Text(song.duration.toString().replaceAll(".", ":")),
+                SizedBox(width: 20),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite_rounded, color: AppColors.grey),
+                ),
+              ],
             ),
           ],
         );
