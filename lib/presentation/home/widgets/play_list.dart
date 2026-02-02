@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_two/common/helpers/is_dark_mode.dart';
+import 'package:flutter_two/common/widgets/favorite_button/favorite_button.dart';
 import 'package:flutter_two/presentation/home/bloc/playlist_cubit.dart';
 import 'package:flutter_two/presentation/home/bloc/playlist_state.dart';
 import 'package:flutter_two/presentation/song_player/pages/song_player.dart';
@@ -74,7 +75,8 @@ class PlayList extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => SongPlayerPage(songEntity:song,),
+                builder: (BuildContext context) =>
+                    SongPlayerPage(songEntity: song),
               ),
             );
           },
@@ -116,10 +118,7 @@ class PlayList extends StatelessWidget {
                 children: [
                   Text(song.duration.toString().replaceAll(".", ":")),
                   SizedBox(width: 20),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_rounded, color: AppColors.grey),
-                  ),
+                  FavoriteButton(songEntity:song)
                 ],
               ),
             ],

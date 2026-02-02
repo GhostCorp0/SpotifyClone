@@ -4,6 +4,7 @@ import 'package:flutter_two/common/widgets/appbar/app_bar.dart';
 import 'package:flutter_two/core/configs/constants/app_urls.dart';
 import 'package:flutter_two/core/configs/theme/app_colors.dart';
 import 'package:flutter_two/presentation/song_player/bloc/song_player_cubit.dart';
+import '../../../common/widgets/favorite_button/favorite_button.dart';
 import '../../../domain/entities/song/song.dart';
 import '../bloc/song_player_state.dart';
 
@@ -70,10 +71,7 @@ class SongPlayerPage extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.favorite_outline, size: 25),
-        ),
+        FavoriteButton(songEntity:songEntity)
       ],
     );
   }
