@@ -62,29 +62,53 @@ class PlayList extends StatelessWidget {
   Widget _songs(List<SongEntity> songs) {
     return ListView.separated(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: songs.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        final song = songs[index];
+        return Row(
           children: [
-            Row(
-              children: [
-                Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.isDarkMode
-                        ? AppColors.darkGrey
-                        : Color(0xffE6E6E6),
+            Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: context.isDarkMode
+                    ? AppColors.darkGrey
+                    : const Color(0xffE6E6E6),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    song.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                  Text(
+                    song.artist,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           ],
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: 10),
-      itemCount: songs.length,
     );
   }
 }
