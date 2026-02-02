@@ -3,9 +3,9 @@ import 'package:flutter_two/core/usecase.dart';
 import 'package:flutter_two/domain/repository/song/song.dart';
 import '../../../service_locator.dart';
 
-class GetNewSongsUseCase implements UseCase<Either,dynamic>{
-  @override
+class GetPlayListUseCase implements UseCase<Either,dynamic>{
+  @override 
   Future<Either> call(params) async{
-    return await sl<SongRepository>().getNewSong();
+    return await sl<SongRepository>().getPlaylist() ;
   }
 }

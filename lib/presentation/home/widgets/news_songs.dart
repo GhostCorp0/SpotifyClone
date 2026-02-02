@@ -77,7 +77,7 @@ class NewsSongs extends StatelessWidget {
                 songs[index].artist,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 12
+                    fontSize: 12  
                 ),
               ),
             ],

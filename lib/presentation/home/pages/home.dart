@@ -6,6 +6,7 @@ import 'package:flutter_two/core/configs/assets/app_images.dart';
 import 'package:flutter_two/core/configs/assets/app_vectors.dart';
 import 'package:flutter_two/core/configs/theme/app_colors.dart';
 import 'package:flutter_two/presentation/home/widgets/news_songs.dart';
+import 'package:flutter_two/presentation/home/widgets/play_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage>
                 children: [NewsSongs(), Container(), Container(), Container()],
               ),
             ),
+            PlayList()
           ],
         ),
       ),

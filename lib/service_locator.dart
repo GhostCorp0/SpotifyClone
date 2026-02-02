@@ -9,6 +9,8 @@ import 'package:flutter_two/domain/usecases/auth/sign_up.dart';
 import 'package:flutter_two/domain/usecases/song/get_new_songs.dart';
 import 'package:get_it/get_it.dart';
 
+import 'domain/usecases/song/get_play_list.dart';
+
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
@@ -41,5 +43,7 @@ Future<void> initializeDependencies() async {
       GetNewSongsUseCase()
   );
 
-
+  sl.registerSingleton<GetPlayListUseCase>(
+      GetPlayListUseCase()
+  );
 }
