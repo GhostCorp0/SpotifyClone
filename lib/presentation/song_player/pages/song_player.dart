@@ -97,6 +97,7 @@ class SongPlayerPage extends StatelessWidget {
                     .read<SongPlayerCubit>()
                     .songDuration
                     .inSeconds
+
                     .toDouble(),
                 onChanged: (value) {},
               ),
