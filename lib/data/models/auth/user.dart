@@ -12,6 +12,7 @@ class UserModel {
     fullName = data['name'];
     email = data['email'];
     imageUrl = data['imageUrl'];
+
   }
 }
 
