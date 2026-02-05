@@ -14,6 +14,7 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //to save state
   final directory = await getApplicationDocumentsDirectory();
 
   HydratedBloc.storage = await HydratedStorage.build(
