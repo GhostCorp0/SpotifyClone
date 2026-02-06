@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_two/common/helpers/is_dark_mode.dart';
@@ -6,10 +5,13 @@ import 'package:flutter_two/common/widgets/appbar/app_bar.dart';
 import 'package:flutter_two/common/widgets/favorite_button/favorite_button.dart';
 import 'package:flutter_two/core/configs/constants/app_urls.dart';
 import 'package:flutter_two/core/configs/theme/app_colors.dart';
+import 'package:flutter_two/domain/repository/auth/auth.dart';
 import 'package:flutter_two/presentation/profile/bloc/favorite_songs_cubit.dart';
 import 'package:flutter_two/presentation/profile/bloc/favorite_songs_state.dart';
 import 'package:flutter_two/presentation/profile/bloc/profile_info_cubit.dart';
 import 'package:flutter_two/presentation/profile/bloc/profile_info_state.dart';
+import 'package:flutter_two/presentation/intro/pages/get_started.dart';
+import 'package:flutter_two/service_locator.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -73,6 +75,26 @@ class ProfilePage extends StatelessWidget {
                   Text(
                     state.userEntity.fullName!,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 24),
+                  TextButton(
+                    onPressed: () async {
+                      await sl<AuthRepository>().signOut();
+                      if (context.mounted) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => const GetStarted()),
+                          (route) => false,
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Log out',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               );
