@@ -7,12 +7,12 @@ import 'package:flutter_two/core/configs/assets/app_vectors.dart';
 import 'package:flutter_two/core/configs/theme/app_colors.dart';
 import 'package:flutter_two/presentation/home/widgets/news_songs.dart';
 import 'package:flutter_two/presentation/home/widgets/play_list.dart';
+import 'package:flutter_two/presentation/profile/pages/profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-
   State<HomePage> createState() => _HomePageState();
 }
 
@@ -31,6 +31,9 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: BasicAppBar(
         hideBack: true,
+        action: IconButton(onPressed: () {
+          Navigator.push(context,MaterialPageRoute(builder:(BuildContext context) => ProfilePage()));
+        }, icon:Icon(Icons.person)),
         title: SvgPicture.asset(AppVectors.logo, height: 40, width: 40),
       ),
       body: SingleChildScrollView(
@@ -47,7 +50,7 @@ class _HomePageState extends State<HomePage>
                 children: [NewsSongs(), Container(), Container(), Container()],
               ),
             ),
-            PlayList()
+            PlayList(),
           ],
         ),
       ),

@@ -17,6 +17,8 @@ abstract class SongFirebaseService {
   Future<Either> addOrRemoveFavoriteSong(String songId);
 
   Future<bool> isFavoriteSong(String songId);
+
+  Future<Either> getUserFavoriteSongs();
 }
 
 class SongFirebaseServiceImpl extends SongFirebaseService {
@@ -32,8 +34,8 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
 
       for (var element in data.docs) {
         var songModel = SongModel.fromJson(element.data());
-        bool isFavorite  = await sl<IsFavoriteSongUseCase>().call(
-          element.reference.id
+        bool isFavorite = await sl<IsFavoriteSongUseCase>().call(
+          element.reference.id,
         );
         songModel.isFavorite = isFavorite;
         songModel.songId = element.reference.id;
@@ -46,7 +48,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
   }
 
   @override
-  Future<Either> getPlaylist() async{
+  Future<Either> getPlaylist() async {
     try {
       List<SongEntity> songs = [];
       var data = await FirebaseFirestore.instance
@@ -56,8 +58,8 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
 
       for (var element in data.docs) {
         var songModel = SongModel.fromJson(element.data());
-        bool isFavorite  = await sl<IsFavoriteSongUseCase>().call(
-            element.reference.id
+        bool isFavorite = await sl<IsFavoriteSongUseCase>().call(
+          element.reference.id,
         );
         songModel.isFavorite = isFavorite;
         songModel.songId = element.reference.id;
@@ -70,52 +72,93 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
   }
 
   @override
-  Future<Either> addOrRemoveFavoriteSong(String songId)async{
-    try{
+  Future<Either> addOrRemoveFavoriteSong(String songId) async {
+    try {
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
       late bool isFavorite;
 
       var user = firebaseAuth.currentUser;
-      String  uid = user!.uid;
+      String uid = user!.uid;
 
-      QuerySnapshot favoriteSongs = await firebaseFirestore.collection("Users").doc(uid).collection("Favorites").where('songId',isEqualTo:songId).get();
+      QuerySnapshot favoriteSongs = await firebaseFirestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Favorites")
+          .where('songId', isEqualTo: songId)
+          .get();
 
-      if(favoriteSongs.docs.isNotEmpty){
+      if (favoriteSongs.docs.isNotEmpty) {
         await favoriteSongs.docs.first.reference.delete();
         isFavorite = false;
-      }else{
-        await firebaseFirestore.collection('Users').doc(uid).collection('Favorites').add({
-          'songId':songId,
-          'addedDate':Timestamp.now()
-        });
+      } else {
+        await firebaseFirestore
+            .collection('Users')
+            .doc(uid)
+            .collection('Favorites')
+            .add({'songId': songId, 'addedDate': Timestamp.now()});
         isFavorite = true;
       }
       return Right(isFavorite);
-    }catch(e){
+    } catch (e) {
       return Left("An error occurred");
     }
   }
 
   @override
-  Future<bool> isFavoriteSong(String songId) async{
-    try{
+  Future<bool> isFavoriteSong(String songId) async {
+    try {
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
       var user = firebaseAuth.currentUser;
-      String  uid = user!.uid;
+      String uid = user!.uid;
 
-      QuerySnapshot favoriteSongs = await firebaseFirestore.collection("Users").doc(uid).collection("Favorites").where('songId',isEqualTo:songId).get();
+      QuerySnapshot favoriteSongs = await firebaseFirestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Favorites")
+          .where('songId', isEqualTo: songId)
+          .get();
 
-      if(favoriteSongs.docs.isNotEmpty){
+      if (favoriteSongs.docs.isNotEmpty) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }catch(e){
+    } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<Either<dynamic, dynamic>> getUserFavoriteSongs() async {
+    try {
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+      var user = firebaseAuth.currentUser;
+      List<SongEntity> favoriteSongs = [];
+      String uid = user!.uid;
+
+      QuerySnapshot favoritesSnapshot = await firebaseFirestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Favorites")
+          .get();
+
+      for(var element in favoritesSnapshot.docs){
+        String songId = element['songId'];
+        var song = await firebaseFirestore.collection('Songs').doc(songId).get();
+        SongModel songModel = SongModel.fromJson(song.data()!);
+        songModel.isFavorite = true;
+        songModel.songId = songId;
+        favoriteSongs.add(songModel.toEntity());
+      }
+      return Right(favoriteSongs);
+    } catch (e) {
+      return Left("An error occurred");
     }
   }
 }

@@ -8,7 +8,7 @@ class FavoriteButtonCubit extends Cubit<FavoriteButtonState> {
 
   FavoriteButtonCubit() : super(FavoriteButtonInitial());
 
-  void favoriteButtonUpdated(String songId) async{
+  Future<void> favoriteButtonUpdated(String songId) async{
      var result = await sl<AddOrRemoveFavoriteSongUseCase>().call(songId);
 
      result.fold((l){},(isFavorite){

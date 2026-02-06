@@ -4,19 +4,21 @@ import 'package:flutter_two/common/helpers/is_dark_mode.dart';
 class BasicAppBar extends StatelessWidget implements PreferredSize {
   final Widget? title;
   final Widget? action;
+  final Color? backgroundColor;
   final bool hideBack;
 
   const BasicAppBar({
     super.key,
     this.title,
     this.hideBack = false,
+    this.backgroundColor,
     this.action,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor??Colors.transparent,
       title: title ?? Text(""),
       actions: [
         action?? Container( )
