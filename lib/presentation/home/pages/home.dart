@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage>
               height: 260,
               child: TabBarView(
                 controller: _tabController,
+
                 children: [NewsSongs(), Container(), Container(), Container()],
               ),
             ),
