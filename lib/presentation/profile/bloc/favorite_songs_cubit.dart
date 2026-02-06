@@ -14,7 +14,8 @@ class FavoriteSongsCubit  extends Cubit<FavoriteSongsState>{
     var result = await sl<GetFavoriteSongsUseCase>().call(null);
     result.fold((l) {
       emit(FavoriteSongsFailure());
-    },(favoriteSongs){
+    },(r){
+      favoriteSongs = r;
       emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
     });
   }
