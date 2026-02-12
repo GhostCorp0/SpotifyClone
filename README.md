@@ -1,4 +1,4 @@
-# flutter_two
+# Spotify Clone
 
 A spotify clone
 
